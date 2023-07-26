@@ -61,6 +61,7 @@ body {
 }
 
 .app-body select {
+    appearance: none;
     padding: 10px 20px;
     font-size: 36px;
     cursor: pointer;
@@ -70,6 +71,14 @@ body {
     outline: none;
     color: rgb(67,171,255);
 }
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none; 
+}
+
+
+
 
 .app-body option {
     color: #333;
