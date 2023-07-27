@@ -6,16 +6,27 @@ const currencyTwo = document.querySelector("#currency-two");
 const swap = document.querySelector(".swap");
 const rateInfo = document.querySelector(".rate-info");
 
-swap.addEventListener("click", calculate);
+currencyOne.addEventListener("change", calculate);
+currencyTwo.addEventListener("change", calculate);
+amountOne.addEventListener("input", calculate);
+swap.addEventListener("click", swapCurrency);
 
 function calculate() {
-  const requestURL = `https://api.exchangerate.host/convert?from=${currencyOne.value}&to=${currencyTwo.value}&amount=${amountOne.value}&places=2`;
-  const request = new XMLHttpRequest();
-  request.open("GET", requestURL);
-  request.responseType = "json";
-  request.send();
-  request.onload = function () {
-    rateInfo.textContent = `Exchange rate: ${request.response.info.rate}`;
-    amountTwo.value = request.response.result;
-  };
+  fetch(
+    `https://api.exchangerate.host/convert?from=${currencyOne.value}&to=${currencyTwo.value}&amount=${amountOne.value}&places=4`
+  )
+    .then((res) => res.json())
+    .then((data) => {
+      rateInfo.textContent = `Exchange rate: ${data.info.rate}`;
+      amountTwo.value = data.result.toFixed(2);
+    });
 }
+function swapCurrency() {
+  [currencyOne.value, currencyTwo.value] = [
+    currencyTwo.value,
+    currencyOne.value,
+  ];
+  calculate();
+}
+
+calculate();
